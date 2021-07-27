@@ -8,7 +8,6 @@ import {
   Dimensions,
   Animated,
   Image,
-  findNodeHandle,
   TouchableOpacity
 } from 'react-native';
 
@@ -19,7 +18,6 @@ const images = {
   women: 'https://images.pexels.com/photos/2552130/pexels-photo-2552130.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
   kids: 'https://images.pexels.com/photos/5080167/pexels-photo-5080167.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
   skullcandy: 'https://images.pexels.com/photos/5602879/pexels-photo-5602879.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-  help: 'https://images.pexels.com/photos/2552130/pexels-photo-2552130.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
 };
 
 const data = Object.keys(images).map((i) => ({
@@ -31,16 +29,10 @@ const data = Object.keys(images).map((i) => ({
 
 const Tab = forwardRef(({ item, onItemPress }, ref) => {
   return (
-    // or could be a Pressable
     <TouchableOpacity onPress={onItemPress}>
       <View ref={ref}>
         <Text
-          style={{
-            color: "white",
-            fontSize: 84 / data.length,
-            fontWeight: "800",
-            textTransform: "uppercase"
-          }}
+          style={styles.tab}
         >
           {item.title}
         </Text>
@@ -69,7 +61,6 @@ const Indicator = ({ measures, scrollX }) => {
         height: 4,
         width: 100,
         backgroundColor: "white",
-        // bottom: -10,
         bottom: -12,
         left: 0,
         width: indicatorWidth,
@@ -92,7 +83,6 @@ const Tabs = ({ data, scrollX, onItemPress }) => {
       item.ref.current.measureLayout(
         containerRef.current,
         (x, y, width, height) => {
-          console.log(x, y, width, height)
           m.push({
             x,
             y,
@@ -106,7 +96,7 @@ const Tabs = ({ data, scrollX, onItemPress }) => {
         }
       )
     })
-  }, [])
+  }, [measures])
 
   return (
     <View style={{ position: "absolute", top: 100, width }}>
@@ -167,9 +157,8 @@ const App = () => {
               style={styles.image}
             />
             <View style={[StyleSheet.absoluteFillObject,
-            {
-              backgroundColor: 'rgba(0,0,0,0.3)',
-            }]}>
+            styles.containerView
+            ]}>
             </View>
           </View>
         }}
@@ -197,6 +186,15 @@ const styles = StyleSheet.create({
   item: {
     width,
     height
+  },
+  containerView: {
+    backgroundColor: 'rgba(0,0,0,0.3)',
+  },
+  tab: {
+    color: "white",
+    fontSize: 84 / data.length,
+    fontWeight: "800",
+    textTransform: "uppercase"
   }
 });
 
